@@ -1,21 +1,25 @@
 package com.example.testapplication;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 public class RoomAdapter extends RecyclerView.Adapter<RoomAdapter.ViewHolder> implements Filterable
 {
-    private Context context;
+    private Activity mainActivity;
     private ArrayList<Room> roomList;
     private ArrayList<Room> filteredRooms;
     private Filter filter;
@@ -29,11 +33,11 @@ public class RoomAdapter extends RecyclerView.Adapter<RoomAdapter.ViewHolder> im
 
 
     //Constructor
-    public RoomAdapter(Context context, ArrayList<Room> roomsList)
+    public RoomAdapter(ArrayList<Room> roomsList, Activity activity)
     {
-        this.context = context;
         this.roomList = roomsList;
         filteredRooms = roomsList;
+        this.mainActivity = activity;
         filter = new Filter() {
         @Override
         protected FilterResults performFiltering(CharSequence charSequence)
@@ -74,6 +78,14 @@ public class RoomAdapter extends RecyclerView.Adapter<RoomAdapter.ViewHolder> im
     {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.room,
                 parent, false);
+        view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(mainActivity.getApplicationContext(), RoomActivity.class);
+                intent.putExtra("Room", (Serializable) roomList.get(0));
+                mainActivity.startActivity(intent);
+            }
+        });
         return new RoomAdapter.ViewHolder(view);
     }
 

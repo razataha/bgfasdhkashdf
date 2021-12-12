@@ -1,5 +1,6 @@
 package com.example.testapplication;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -8,13 +9,16 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.SearchView;
+import android.widget.Toast;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class MainActivity extends AppCompatActivity {
-
+public class MainActivity extends AppCompatActivity
+{
     ArrayList<Room> list;
     RoomAdapter adapter;
     RecyclerView recyclerView;
@@ -25,6 +29,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         recyclerView = findViewById(R.id.room_list);
+
         LinearLayoutManager m = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(m);
 
@@ -35,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
         list.add(new Room(4, "Marriage with cousin", null, null, null));
         list.add(new Room(5, "Robotics", null, null, null));
 
-        adapter = new RoomAdapter(getApplicationContext(), list);
+        adapter = new RoomAdapter(list, this);
         recyclerView.setAdapter(adapter);
     }
 
@@ -51,7 +56,7 @@ public class MainActivity extends AppCompatActivity {
         super.onResume();
 
         //list = dao.load();
-        adapter = new RoomAdapter(getApplicationContext(), list);
+        adapter = new RoomAdapter(list, this);
         recyclerView.setAdapter(adapter);
     }
     @Override

@@ -1,9 +1,10 @@
 package com.example.testapplication;
 
+import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 
-public class Room
+public class Room implements Serializable
 {
     private int id;
     private String name;
